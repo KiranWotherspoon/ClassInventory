@@ -12,7 +12,8 @@ namespace ClassInventory
 {
     public partial class Form1 : Form
     {
-        // TODO - create a List to store all inventory objects
+        // create a List to store all inventory objects
+        List<Player> players = new List<Player>();
 
         public Form1()
         {
@@ -20,32 +21,80 @@ namespace ClassInventory
         }
 
         private void addButton_Click(object sender, EventArgs e)
-        {
-            // TODO - gather all information from screen 
+        {                       
+            // gather all information from screen
+            string name, team, position;
+            int age;
 
-            // TODO - create object with gathered information
+            name = nameInput.Text;
+            age = Convert.ToInt16(ageInput.Text);
+            team = teamInput.Text;
+            position = positionInput.Text;
 
-            // TODO - add object to global list
+            // create object with gathered information
+            Player p = new Player(name, age, team, position);
 
-            // TODO - display message to indicate addition made
+            // add object to global list
+            players.Add(p);
+
+            // display message to indicate addition made
+            outputLabel.Text = "Player " + name + " has been added to the database.";
+
+            nameInput.Clear();
+            ageInput.Clear();
+            teamInput.Clear();
+            positionInput.Clear();
         }
 
         private void removeButton_Click(object sender, EventArgs e)
         {
-            // TODO - if object is in list remove it
+            // if object is in list remove it
+            string removeName = removeInput.Text.ToString();
 
-            // TODO - display message to indicate deletion made
+            for (int i = 0; i < players.Count(); i++)
+            {
+                if (players[i].name.Contains(removeName))
+                {
+                    players.RemoveAt(i);
+                    outputLabel.Text = "Player " + removeName + " has been deleted from the database.";
+                    break;
+                }
+            }
+
+            // display message to indicate deletion made
+
+            removeInput.Clear();
         }
 
         private void searchButton_Click(object sender, EventArgs e)
         {
-            // TODO - if object entered exists in list show it
-            // TODO - else show not found message
+            // if object entered exists in list show it
+            string findName = searchInput.Text;
+
+            for (int i = 0; i < players.Count(); i++)
+            {
+                if (players[i].name.Contains(findName))
+                {
+                    outputLabel.Text = players[i].name + ", " + players[i].age + ", " + players[i].team + ", " + players[i].position;
+
+                    break;
+                }
+                else { outputLabel.Text = "Player " + findName + " cannot be found in database."; }
+            }
+
+            //else show not found message
+            
+            searchInput.Clear();
         }
 
         private void showButton_Click(object sender, EventArgs e)
         {
-            // TODO - show all objects in list
+            // show all objects in list
+            outputLabel.Text = "";
+            for (int i = 0; i < players.Count(); i++)
+            {
+                outputLabel.Text += players[i].name + ", " + players[i].age + ", " + players[i].team + ", " + players[i].position + "\n";
+            }
         }
     }
 }
